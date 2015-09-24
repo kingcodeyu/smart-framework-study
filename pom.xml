@@ -99,7 +99,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>smart-framework-test</finalName>
+		<finalName>smart-framework-study</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>

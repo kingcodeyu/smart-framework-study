@@ -32,6 +32,7 @@ public class DispatcherServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         // 初始化相关配置
+    	System.out.println("你好啊");
         ServletContext servletContext = config.getServletContext();
         UploadHelper.init(servletContext);
     }
