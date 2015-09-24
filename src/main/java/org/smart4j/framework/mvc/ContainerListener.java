@@ -29,7 +29,7 @@ public class ContainerListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         // 获取 ServletContext
         ServletContext servletContext = sce.getServletContext();
-        // 初始化相关 Helper 类
+        // 初始化相关 Helper 类  //只是把相关的类加入内存中。
         HelperLoader.init();
         // 添加 Servlet 映射
         addServletMapping(servletContext);

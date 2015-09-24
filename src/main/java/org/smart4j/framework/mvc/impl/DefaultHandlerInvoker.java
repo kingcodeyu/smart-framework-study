@@ -8,6 +8,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.smart4j.framework.InstanceFactory;
 import org.smart4j.framework.ioc.BeanHelper;
 import org.smart4j.framework.mvc.Handler;
@@ -61,8 +64,9 @@ public class DefaultHandlerInvoker implements HandlerInvoker {
         } else {
             // 添加普通请求参数列表（包括 Query String 与 Form Data）
             Map<String, Object> requestParamMap = WebUtil.getRequestParamMap(request);
-            if (MapUtil.isNotEmpty(requestParamMap)) {
-                paramList.add(new Params(requestParamMap));
+            if (MapUtil.isNotEmpty(requestParamMap) ) {
+                //paramList.add(new Params(requestParamMap));
+                paramList.addAll(createDefaultClassParamList(requestParamMap,actionParamTypes));
             }
         }
         // 返回参数列表
@@ -91,10 +95,17 @@ public class DefaultHandlerInvoker implements HandlerInvoker {
         // 返回参数列表
         return paramList;
     }
-
+    private List<Object> createDefaultClassParamList(Map<String, Object> requestParamMap, Class<?>[] actionParamTypes){
+    	List<Object> paramList = new ArrayList<>();
+    	for(Class<?> classz : actionParamTypes){
+    		paramList.add(MapUtil.mapToBean(classz, requestParamMap));
+    	}
+    	return paramList;
+    }
     private Object invokeActionMethod(Method actionMethod, Object actionInstance, List<Object> actionMethodParamList) throws IllegalAccessException, InvocationTargetException {
         // 通过反射调用 Action 方法
         actionMethod.setAccessible(true); // 取消类型安全检测（可提高反射性能）
+        System.out.println(ToStringBuilder.reflectionToString(actionMethodParamList.toArray()));
         return actionMethod.invoke(actionInstance, actionMethodParamList.toArray());
     }
 
