@@ -14,7 +14,7 @@ import org.smart4j.framework.core.impl.support.SupperClassTemplate;
  * @since 2.3
  */
 public class DefaultClassScanner implements ClassScanner {
-
+	
     @Override
     public List<Class<?>> getClassList(String packageName) {
         return new ClassTemplate(packageName) {

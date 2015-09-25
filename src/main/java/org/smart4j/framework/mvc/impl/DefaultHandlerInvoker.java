@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.smart4j.framework.InstanceFactory;
@@ -66,7 +67,7 @@ public class DefaultHandlerInvoker implements HandlerInvoker {
             Map<String, Object> requestParamMap = WebUtil.getRequestParamMap(request);
             if (MapUtil.isNotEmpty(requestParamMap) ) {
                 //paramList.add(new Params(requestParamMap));
-                paramList.addAll(createDefaultClassParamList(requestParamMap,actionParamTypes));
+                paramList.addAll(createDefaultClassParamList(requestParamMap,actionParamTypes,request));
             }
         }
         // 返回参数列表
@@ -95,10 +96,24 @@ public class DefaultHandlerInvoker implements HandlerInvoker {
         // 返回参数列表
         return paramList;
     }
-    private List<Object> createDefaultClassParamList(Map<String, Object> requestParamMap, Class<?>[] actionParamTypes){
+    /**
+     * 处理参数
+     * @param requestParamMap
+     * @param actionParamTypes
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    private List<Object> createDefaultClassParamList(Map<String, Object> requestParamMap, Class<?>[] actionParamTypes,HttpServletRequest request) throws Exception{
     	List<Object> paramList = new ArrayList<>();
     	for(Class<?> classz : actionParamTypes){
-    		paramList.add(MapUtil.mapToBean(classz, requestParamMap));
+    		if(classz == HttpServletRequest.class){
+    			paramList.add(request);
+    			continue;
+    		}
+    		Object object = classz.newInstance();
+    		BeanUtils.populate(object, requestParamMap);
+    		paramList.add(object);
     	}
     	return paramList;
     }

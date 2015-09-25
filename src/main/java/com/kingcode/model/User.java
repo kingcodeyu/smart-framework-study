@@ -1,4 +1,4 @@
-package com.kingcodeyu.model;
+package com.kingcode.model;
 
 public class User {
 	private Long id;

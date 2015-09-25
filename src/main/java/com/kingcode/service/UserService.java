@@ -1,6 +1,6 @@
-package com.kingcodeyu.service;
+package com.kingcode.service;
 
-import com.kingcodeyu.model.User;
+import com.kingcode.model.User;
 
 public interface UserService {
 	public void addUser(User user);

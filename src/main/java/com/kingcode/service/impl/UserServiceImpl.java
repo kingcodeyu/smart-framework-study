@@ -1,12 +1,13 @@
-package com.kingcodeyu.service.impl;
+package com.kingcode.service.impl;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.smart4j.framework.tx.annotation.Service;
 
-import com.kingcodeyu.model.User;
-import com.kingcodeyu.service.UserService;
+import com.kingcode.model.User;
+import com.kingcode.service.UserService;
 
+@Service
 public class UserServiceImpl implements UserService {
-	@Override
 	public void addUser(User user) {
 		System.out.println(ToStringBuilder.reflectionToString(user));
 	}
