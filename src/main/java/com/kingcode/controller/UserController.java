@@ -19,6 +19,7 @@ public class UserController {
 	
 	@Request.Get("/user/addUser")
 	public Result addUser(User user,HttpServletRequest req){
+		System.out.println("么么哒 二胎时代");
 		System.out.println(req.getParameter("id"));
 		System.out.println(ToStringBuilder.reflectionToString(user));
 		userService.addUser(user);
